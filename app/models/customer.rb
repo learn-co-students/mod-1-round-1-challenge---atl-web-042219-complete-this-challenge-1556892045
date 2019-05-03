@@ -30,13 +30,9 @@ class Customer
     number_of_reviews.size
   end
 
-  #works^
-
   def restaurants
     Review.all.select {|review_obj| review_obj.user == self }
   end
-
-  #works^
 
   def self.find_by_name(name)
     self.all.find do |customer|
@@ -44,15 +40,12 @@ class Customer
     end
   end
 
-  #works^
-
   def self.find_all_by_first_name(name)
     self.all.select do |customer|
       customer.first_name == name
     end
   end
 
-  #works^
 
   def self.all_names
     all_customer_names = []
@@ -60,7 +53,4 @@ class Customer
       all_customer_names << customer_obj.full_name
     end
   end
-
-  #works^
-
 end
