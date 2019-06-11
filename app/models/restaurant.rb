@@ -1,36 +1,45 @@
+require "pry"
 class Restaurant
-  attr_reader :name
-  @@all_rest = []
+  attr_accessor :name
+  @@all = []
 
   def initialize(name)
     @name = name
-    @@all_rest << self
+    @@all << self
   end
 
   def self.all
-    @@all_rest
-  end
-
-  def customers
-    list = Review.all.select {|all_cust| all_cust.customer}
-    "1.customer: #{list[0]}"
+    @@all
   end
 
   def reviews
-    Review.all.select {|rest_rev| rest_rev.restaurant == self}
+    Review.all.select do |review|
+      review.restaurant == self
+    end
   end
 
-  # def average_star_rating
-  #   a = reviews.select {|star| star.rating == self}
-  #   num = a.count
-  #   # num / all_
-  # end
+  def customers
+    reviews.map do |review|
+        review.customer
+    end.uniq
+  end
+
+  def longest_review
+    a = reviews.map do |review|
+      review.content
+    end
+    a.max_by(&:length)
+  end
+
+  def average_star_rating
+    a = reviews.map do |review|
+      review.rating
+    end
+    a.reduce(:+).fdiv(a.size)
+  end
 
   def self.find_by_name(name)
-    @@all_rest.find {|one_rest| one_rest.name == name}
+    @@all.find {|restaurant| restaurant.name == name}
   end
 
-  # def longest_review
-  #   Review.all.find {|longg| longg.content}.length.max
-  # end
 end

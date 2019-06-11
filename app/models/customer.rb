@@ -1,17 +1,15 @@
 class Customer
-  attr_reader :first_name, :last_name
-  @@all_customers = []
+  attr_accessor :first_name, :last_name
+  @@all = []
+
   def initialize(first_name, last_name)
     @first_name = first_name
-    @last_name  = last_name
-    @@all_customers << self
+    @last_name = last_name
+    @@all << self
   end
 
   def self.all
-    @@all_customers
-  end
-  def full_name
-    "#{first_name} #{last_name}"
+    @@all
   end
 
   def add_review(restaurant, content, rating)
@@ -19,14 +17,39 @@ class Customer
   end
 
   def num_reviews
-    Review.all.select {|all_reviews| all_reviews.customer == self}.count
+  a = Review.all.select do |review|
+      review.customer == self
+    end
+    a.count
   end
 
   def restaurants
-    Review.all.select {|all_restaurants| all_restaurants.customer == self}
+    a = Review.all.select do |review|
+        review.customer == self
+    end
+    a.map do |rev|
+      rev.restaurant
+    end
+  end
+
+  def self.find_by_name(name)
+    fullname = name.split(" ")
+    first_name = fullname[0]
+    last_name = fullname[1]
+    @@all.find do |customer|
+      customer.first_name == first_name && customer.last_name == last_name
+    end
   end
 
   def self.find_all_by_first_name(name)
-    @@all_customers.select {|cus_name| cus_name.first_name == name}
+    @@all.select {|customer| customer.first_name == name}
   end
+
+  def self.all_names
+    first = @@all.select {|x| x.first_name}
+    last = @@all.select {|x| x.last_name}
+    fullname = first.concat(last)
+    fullname
+  end
+
 end

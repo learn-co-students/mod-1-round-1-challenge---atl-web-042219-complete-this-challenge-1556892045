@@ -1,18 +1,17 @@
 class Review
-  attr_accessor :restaurant, :content, :rating
-  attr_reader :customer
-  @@all_rev = []
+  attr_accessor :rating, :content
+  attr_reader :customer, :restaurant
+  @@all = []
 
-  def initialize(customer, restaurant, content, rating)
-    @customer = customer
-    @restaurant = restaurant
-    @content = content
-    @rating = rating
-    @@all_rev << self
-  end
+    def initialize(customer, restaurant, content, rating)
+      @customer = customer
+      @restaurant = restaurant
+      @rating = rating
+      @content = content
+      @@all << self
+    end
 
   def self.all
-    @@all_rev
+    @@all
   end
-
 end
